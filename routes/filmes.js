@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const Filme = require("../models/Filme");
+const filme = require("../models/filme");
 
 const axios = require("axios");
 
 router.get("/", async(req, res) => {
 
-    const filmes = await Filme.find();
+    const filmes = await filme.find();
 
     res.render("index", {
         filmes
@@ -31,7 +31,7 @@ router.post("/novo", async(req, res) => {
 
     const dados = resposta.data;
 
-    await Filme.create({
+    await filme.create({
 
         titulo: dados.Title,
         ano: dados.Year,
