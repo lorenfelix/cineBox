@@ -17,6 +17,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", filmeRouter);
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+//app.listen(PORT, () => {
+//console.log(`Servidor rodando na porta ${PORT}`);
+//})
+
+app.listen(3000, () => {
+    console.log("Servidor rodando!");
 });
