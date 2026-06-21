@@ -1,23 +1,15 @@
-const mongoose = require("mongoose");
+const Database = require("better-sqlite3");
 
-//async function conectar() {
-//await mongoose.connect(
-// "mongodb+srv://lorenfelix09:OdaYf7T5C4K4HOBw@cluster0.ikjoss9.mongodb.net/"
-//);
+const db = new Database("cinebox.db");
 
-//console.log("Mongo conectado");
-//}
+db.prepare(`
+CREATE TABLE IF NOT EXISTS filmes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT,
+    ano TEXT,
+    poster TEXT,
+    sinopse TEXT
+)
+`).run();
 
-//module.exports = conectar;const mongoose = require("mongoose");
-
-async function conectar() {
-    try {
-        await mongoose.connect("mongodb+srv://lorenfelix09:OdaYf7T5C4K4HOBw@cluster0.ikjoss9.mongodb.net/cineBox?retryWrites=true&w=majority");
-        console.log("✅ Mongo conectado");
-    } catch (erro) {
-        console.error("❌ Erro ao conectar no Mongo:");
-        console.error(erro);
-    }
-}
-
-module.exports = conectar;
+module.exports = db;
