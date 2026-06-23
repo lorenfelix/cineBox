@@ -68,6 +68,29 @@ router.post("/adicionar", (req, res) => {
 
 });
 
+//favoritar filme
+router.get("/favoritar/:id", (req, res) => {
+
+    db.prepare(`
+        UPDATE filmes
+        SET favorito = 1
+        WHERE id = ?
+    `).run(req.params.id);
+
+    res.redirect("/");
+});
+
+//cria favorito
+router.get("/favoritos", (req, res) => {
+
+    const filmes = db.prepare(`
+        SELECT * FROM filmes
+        WHERE favorito = 1
+    `).all();
+
+    res.render("favoritos", { filmes });
+
+});
 // Avaliar filme
 router.get("/avaliar/:id", (req, res) => {
 
@@ -129,9 +152,22 @@ router.get("/filme/:id", (req, res) => {
         "SELECT * FROM avaliacoes WHERE filme_id = ?"
     ).all(req.params.id);
 
+    let media = 0;
+
+    if (avaliacoes.length > 0) {
+
+        const soma = avaliacoes.reduce(
+            (total, av) => total + av.nota,
+            0
+        );
+
+        media = soma / avaliacoes.length;
+    }
+
     res.render("filme", {
         filme,
         avaliacoes,
+        media,
         id: req.params.id
     });
 
